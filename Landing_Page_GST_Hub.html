@@ -3,966 +3,1477 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GST Freelance Hub — India's #1 Tax Tracker for Freelancers</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<title>GST Freelance Hub — Master Your Freelance Taxes in Minutes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
 <style>
-  :root {
-    --ink: #0D0D0D;
-    --paper: #F5F0E8;
-    --saffron: #FF6B00;
-    --saffron-light: #FF8C35;
-    --green: #006B3C;
-    --green-light: #00A85A;
-    --navy: #0A1628;
-    --cream: #FFF8EE;
-    --gold: #D4A017;
-    --muted: #6B6560;
-    --border: #D9D2C5;
-  }
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--paper);
-    color: var(--ink);
-    overflow-x: hidden;
-  }
+/* ─────────────────────────────────────────────
+   DESIGN TOKENS
+───────────────────────────────────────────── */
+:root {
+  --navy:          #0f172a;
+  --navy-800:      #1e293b;
+  --navy-700:      #334155;
+  --navy-600:      #475569;
+  --indigo:        #4f46e5;
+  --indigo-600:    #4338ca;
+  --indigo-400:    #818cf8;
+  --indigo-100:    #e0e7ff;
+  --indigo-glow:   rgba(79,70,229,0.35);
+  --emerald:       #10b981;
+  --emerald-100:   #d1fae5;
+  --amber:         #f59e0b;
+  --amber-100:     #fef3c7;
+  --rose:          #f43f5e;
+  --white:         #ffffff;
+  --slate-50:      #f8fafc;
+  --slate-100:     #f1f5f9;
+  --slate-200:     #e2e8f0;
+  --slate-400:     #94a3b8;
+  --slate-600:     #475569;
+  --text-primary:  #0f172a;
+  --text-muted:    #64748b;
+  --border:        rgba(255,255,255,0.08);
+  --card-bg:       rgba(255,255,255,0.04);
+  --font:          'Inter', system-ui, -apple-system, sans-serif;
+  --radius-sm:     6px;
+  --radius:        12px;
+  --radius-lg:     20px;
+  --shadow-sm:     0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  --shadow:        0 4px 24px rgba(0,0,0,0.18);
+  --shadow-lg:     0 20px 60px rgba(0,0,0,0.3);
+  --shadow-indigo: 0 8px 32px rgba(79,70,229,0.4);
+  --transition:    all 0.2s cubic-bezier(0.4,0,0.2,1);
+}
 
-  /* ── NOISE TEXTURE OVERLAY ── */
-  body::before {
-    content: '';
-    position: fixed; inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
-    pointer-events: none; z-index: 0; opacity: 0.4;
-  }
+/* ─────────────────────────────────────────────
+   RESET & BASE
+───────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: var(--font);
+  background: var(--navy);
+  color: var(--white);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
-  /* ── NAV ── */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 1rem 4rem;
-    background: var(--paper);
+/* ─── BACKGROUND MESH ─── */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 20% -10%, rgba(79,70,229,0.15) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 110%, rgba(16,185,129,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 30% at 50% 50%, rgba(79,70,229,0.05) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* ─── GRID TEXTURE ─── */
+body::after {
+  content: '';
+  position: fixed; inset: 0; z-index: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+}
+
+main { position: relative; z-index: 1; }
+
+/* ─────────────────────────────────────────────
+   NAVIGATION
+───────────────────────────────────────────── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  height: 64px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 max(2rem, calc(50% - 640px));
+  background: rgba(15,23,42,0.8);
+  backdrop-filter: blur(20px) saturate(1.5);
+  border-bottom: 1px solid var(--border);
+  transition: var(--transition);
+}
+nav.scrolled {
+  background: rgba(15,23,42,0.95);
+  border-bottom-color: rgba(255,255,255,0.12);
+}
+.nav-brand {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 1.05rem; font-weight: 700;
+  color: var(--white); text-decoration: none; letter-spacing: -0.01em;
+}
+.nav-brand-icon {
+  width: 32px; height: 32px;
+  background: var(--indigo);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem;
+  box-shadow: 0 0 16px rgba(79,70,229,0.5);
+}
+.nav-links {
+  display: flex; align-items: center; gap: 2rem;
+  list-style: none;
+}
+.nav-links a {
+  font-size: 0.875rem; font-weight: 500;
+  color: var(--slate-400); text-decoration: none;
+  transition: var(--transition);
+}
+.nav-links a:hover { color: var(--white); }
+.nav-cta {
+  display: flex; align-items: center; gap: 0.5rem;
+  background: var(--indigo);
+  color: var(--white) !important;
+  padding: 0.5rem 1.25rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem !important; font-weight: 600 !important;
+  text-decoration: none;
+  transition: var(--transition) !important;
+  box-shadow: var(--shadow-indigo);
+}
+.nav-cta:hover { background: var(--indigo-600) !important; transform: translateY(-1px); }
+.nav-mobile-toggle {
+  display: none;
+  background: none; border: none; cursor: pointer;
+  color: var(--white); font-size: 1.5rem; padding: 0.25rem;
+}
+
+/* ─────────────────────────────────────────────
+   HERO
+───────────────────────────────────────────── */
+.hero {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 4rem;
+  padding: 8rem max(2rem, calc(50% - 640px)) 5rem;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(79,70,229,0.15);
+  border: 1px solid rgba(79,70,229,0.3);
+  border-radius: 100px;
+  padding: 0.35rem 1rem;
+  font-size: 0.75rem; font-weight: 600;
+  color: var(--indigo-400);
+  letter-spacing: 0.06em; text-transform: uppercase;
+  margin-bottom: 1.75rem;
+  animation: fadeUp 0.5s ease both;
+}
+.badge-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--emerald);
+  box-shadow: 0 0 8px var(--emerald);
+  animation: pulse 2s infinite;
+}
+.hero-title {
+  font-size: clamp(2.5rem, 4.5vw, 3.75rem);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  margin-bottom: 1.5rem;
+  animation: fadeUp 0.5s 0.08s ease both;
+}
+.hero-title-gradient {
+  background: linear-gradient(135deg, #a5b4fc 0%, #818cf8 40%, #6366f1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-sub {
+  font-size: 1.125rem;
+  font-weight: 400;
+  line-height: 1.75;
+  color: var(--slate-400);
+  max-width: 500px;
+  margin-bottom: 2.5rem;
+  animation: fadeUp 0.5s 0.16s ease both;
+}
+.hero-actions {
+  display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+  margin-bottom: 3rem;
+  animation: fadeUp 0.5s 0.24s ease both;
+}
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  background: var(--indigo);
+  color: var(--white);
+  padding: 0.875rem 1.75rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.9375rem; font-weight: 700;
+  text-decoration: none; border: none; cursor: pointer;
+  transition: var(--transition);
+  box-shadow: var(--shadow-indigo);
+  letter-spacing: -0.01em;
+}
+.btn-primary:hover {
+  background: var(--indigo-600);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(79,70,229,0.5);
+}
+.btn-primary svg { transition: transform 0.2s; }
+.btn-primary:hover svg { transform: translateX(3px); }
+.btn-ghost {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  background: transparent;
+  color: var(--slate-400);
+  padding: 0.875rem 1.5rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.9375rem; font-weight: 500;
+  text-decoration: none; border: 1px solid rgba(255,255,255,0.1);
+  cursor: pointer; transition: var(--transition);
+}
+.btn-ghost:hover { color: var(--white); border-color: rgba(255,255,255,0.25); background: rgba(255,255,255,0.05); }
+.hero-social-proof {
+  display: flex; align-items: center; gap: 1rem;
+  animation: fadeUp 0.5s 0.32s ease both;
+}
+.avatars { display: flex; }
+.avatar {
+  width: 34px; height: 34px; border-radius: 50%;
+  border: 2px solid var(--navy);
+  margin-left: -10px; first-child { margin-left: 0; }
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.75rem; font-weight: 700; color: var(--white);
+}
+.avatars .avatar:first-child { margin-left: 0; }
+.social-proof-text { font-size: 0.8125rem; color: var(--slate-400); line-height: 1.4; }
+.social-proof-text strong { color: var(--white); font-weight: 600; }
+.stars { color: var(--amber); font-size: 0.7rem; letter-spacing: 1px; }
+
+/* ─── HERO VISUAL ─── */
+.hero-visual { animation: fadeUp 0.5s 0.12s ease both; }
+.app-window {
+  background: var(--navy-800);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg), 0 0 0 1px rgba(255,255,255,0.04);
+}
+.window-bar {
+  display: flex; align-items: center; gap: 8px;
+  padding: 14px 18px;
+  background: rgba(255,255,255,0.03);
+  border-bottom: 1px solid var(--border);
+}
+.wdot { width: 11px; height: 11px; border-radius: 50%; }
+.wdot-r { background: #ff5f57; }
+.wdot-y { background: #febc2e; }
+.wdot-g { background: #27c840; }
+.window-title {
+  margin-left: auto; margin-right: auto;
+  font-size: 0.72rem; font-weight: 600;
+  color: rgba(255,255,255,0.3); letter-spacing: 0.04em;
+}
+.window-body { padding: 1.25rem; }
+.kpi-row {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;
+  margin-bottom: 1.25rem;
+}
+.kpi-tile {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+}
+.kpi-tile-label { font-size: 0.65rem; color: rgba(255,255,255,0.35); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
+.kpi-tile-value { font-size: 1.3rem; font-weight: 800; letter-spacing: -0.02em; }
+.kpi-tile-sub { font-size: 0.65rem; color: rgba(255,255,255,0.25); margin-top: 3px; }
+.kv-indigo { color: var(--indigo-400); }
+.kv-emerald { color: var(--emerald); }
+.kv-amber { color: var(--amber); }
+.kv-rose { color: #fb7185; }
+.table-header {
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 80px;
+  gap: 8px; padding: 8px 10px;
+  background: rgba(255,255,255,0.03); border-radius: 6px 6px 0 0;
+  font-size: 0.6rem; font-weight: 600;
+  color: rgba(255,255,255,0.25); text-transform: uppercase; letter-spacing: 0.06em;
+}
+.table-row {
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 80px;
+  gap: 8px; padding: 10px 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  font-size: 0.72rem; color: rgba(255,255,255,0.7);
+  align-items: center; transition: background 0.15s;
+}
+.table-row:last-child { border-bottom: none; }
+.table-row:hover { background: rgba(255,255,255,0.03); }
+.status-pill {
+  padding: 3px 8px; border-radius: 4px;
+  font-size: 0.6rem; font-weight: 700;
+  display: inline-block;
+}
+.s-paid   { background: rgba(16,185,129,0.15); color: var(--emerald); }
+.s-pend   { background: rgba(245,158,11,0.15); color: var(--amber); }
+.s-over   { background: rgba(244,63,94,0.15); color: var(--rose); }
+.calc-banner {
+  margin-top: 12px;
+  background: linear-gradient(135deg, rgba(79,70,229,0.15), rgba(79,70,229,0.08));
+  border: 1px solid rgba(79,70,229,0.25);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.calc-banner-text { font-size: 0.72rem; color: var(--indigo-400); font-weight: 600; }
+.calc-banner-value { font-size: 0.875rem; font-weight: 800; color: var(--white); }
+
+/* ─── FLOATING CHIPS ─── */
+.chip {
+  position: absolute;
+  background: var(--navy-800);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  padding: 8px 14px;
+  display: flex; align-items: center; gap: 8px;
+  font-size: 0.75rem; font-weight: 600; color: var(--white);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  white-space: nowrap;
+  backdrop-filter: blur(8px);
+}
+.chip-icon { font-size: 1rem; }
+.chip-1 { top: -18px; right: -20px; animation: float 4s ease-in-out infinite; }
+.chip-2 { bottom: -18px; left: -20px; animation: float 4s 2s ease-in-out infinite; }
+.hero-visual-wrap { position: relative; }
+
+/* ─────────────────────────────────────────────
+   LOGO TICKER
+───────────────────────────────────────────── */
+.ticker-section {
+  padding: 2.5rem max(2rem, calc(50% - 640px));
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.ticker-label {
+  text-align: center;
+  font-size: 0.75rem; font-weight: 600;
+  color: var(--slate-400); letter-spacing: 0.1em; text-transform: uppercase;
+  margin-bottom: 1.5rem;
+}
+.ticker-track {
+  display: flex; gap: 2rem; align-items: center; justify-content: center; flex-wrap: wrap;
+}
+.ticker-item {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.5rem 1.25rem;
+  font-size: 0.8125rem; font-weight: 600; color: var(--slate-400);
+  transition: var(--transition);
+}
+.ticker-item:hover { color: var(--white); border-color: rgba(255,255,255,0.2); }
+
+/* ─────────────────────────────────────────────
+   SECTIONS — SHARED
+───────────────────────────────────────────── */
+section { position: relative; z-index: 1; }
+.section-inner {
+  padding: 6rem max(2rem, calc(50% - 640px));
+}
+.section-label {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--indigo-400);
+  margin-bottom: 1rem;
+}
+.section-title {
+  font-size: clamp(1.875rem, 3vw, 2.75rem);
+  font-weight: 800; letter-spacing: -0.025em;
+  line-height: 1.1; margin-bottom: 1.25rem;
+}
+.section-sub {
+  font-size: 1.0625rem; color: var(--slate-400);
+  line-height: 1.75; max-width: 560px;
+}
+
+/* ─────────────────────────────────────────────
+   LIVE CALCULATOR (Interactive Widget)
+───────────────────────────────────────────── */
+.calc-section { background: rgba(255,255,255,0.02); }
+.calc-layout {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start;
+}
+.calc-widget {
+  background: var(--navy-800);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  box-shadow: var(--shadow-lg);
+}
+.calc-widget-title {
+  font-size: 0.875rem; font-weight: 700;
+  color: var(--indigo-400); text-transform: uppercase; letter-spacing: 0.06em;
+  margin-bottom: 1.5rem; display: flex; align-items: center; gap: 8px;
+}
+.calc-field { margin-bottom: 1.25rem; }
+.calc-label {
+  display: block; font-size: 0.8125rem; font-weight: 600;
+  color: var(--slate-400); margin-bottom: 0.4rem;
+}
+.calc-input {
+  width: 100%;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: var(--radius-sm);
+  padding: 0.625rem 1rem;
+  font-size: 0.9375rem; font-weight: 600;
+  color: var(--white); font-family: var(--font);
+  transition: var(--transition);
+  outline: none;
+}
+.calc-input:focus { border-color: var(--indigo); box-shadow: 0 0 0 3px rgba(79,70,229,0.2); }
+.calc-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2394a3b8' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 12px center;
+  padding-right: 2.5rem;
+}
+.calc-results {
+  margin-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  padding-top: 1.25rem;
+  display: flex; flex-direction: column; gap: 0.75rem;
+}
+.calc-row {
+  display: flex; justify-content: space-between; align-items: center;
+}
+.calc-row-label { font-size: 0.8125rem; color: var(--slate-400); }
+.calc-row-value { font-size: 0.9375rem; font-weight: 700; color: var(--white); }
+.calc-total-row {
+  background: linear-gradient(135deg, rgba(79,70,229,0.15), rgba(79,70,229,0.08));
+  border: 1px solid rgba(79,70,229,0.25);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: 0.5rem;
+}
+.calc-total-label { font-size: 0.875rem; font-weight: 700; color: var(--indigo-400); }
+.calc-total-value { font-size: 1.25rem; font-weight: 900; color: var(--white); }
+.keep-aside-box {
+  background: rgba(245,158,11,0.1);
+  border: 1px solid rgba(245,158,11,0.25);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.keep-aside-label { font-size: 0.75rem; color: var(--amber); font-weight: 600; }
+.keep-aside-value { font-size: 1rem; font-weight: 800; color: var(--amber); }
+
+.calc-info { padding-top: 1rem; }
+.calc-info .section-title { margin-bottom: 1rem; }
+.calc-steps { display: flex; flex-direction: column; gap: 1.25rem; margin-top: 2rem; }
+.calc-step {
+  display: flex; gap: 1rem; align-items: flex-start;
+}
+.step-num-box {
+  width: 36px; height: 36px; flex-shrink: 0;
+  background: rgba(79,70,229,0.15);
+  border: 1px solid rgba(79,70,229,0.3);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.8125rem; font-weight: 800; color: var(--indigo-400);
+}
+.step-text-title { font-size: 0.9375rem; font-weight: 700; margin-bottom: 0.2rem; }
+.step-text-sub { font-size: 0.8125rem; color: var(--slate-400); line-height: 1.5; }
+
+/* ─────────────────────────────────────────────
+   FEATURES GRID
+───────────────────────────────────────────── */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  margin-top: 3.5rem;
+}
+.feature-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.75rem;
+  transition: var(--transition);
+  position: relative; overflow: hidden;
+}
+.feature-card::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(79,70,229,0.08), transparent 60%);
+  opacity: 0; transition: opacity 0.3s;
+}
+.feature-card:hover { border-color: rgba(79,70,229,0.4); transform: translateY(-3px); box-shadow: var(--shadow); }
+.feature-card:hover::before { opacity: 1; }
+.feature-icon-box {
+  width: 44px; height: 44px;
+  background: rgba(79,70,229,0.15);
+  border: 1px solid rgba(79,70,229,0.25);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem; margin-bottom: 1.25rem;
+}
+.feature-card-title { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; letter-spacing: -0.01em; }
+.feature-card-text { font-size: 0.875rem; color: var(--slate-400); line-height: 1.65; }
+
+/* ─────────────────────────────────────────────
+   PAIN POINTS (3-col)
+───────────────────────────────────────────── */
+.pain-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem;
+  margin-top: 3.5rem;
+}
+.pain-card {
+  background: rgba(244,63,94,0.04);
+  border: 1px solid rgba(244,63,94,0.12);
+  border-radius: var(--radius);
+  padding: 1.75rem;
+  transition: var(--transition);
+}
+.pain-card:hover { border-color: rgba(244,63,94,0.3); transform: translateY(-3px); }
+.pain-emoji { font-size: 1.75rem; margin-bottom: 1rem; display: block; }
+.pain-title { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
+.pain-text { font-size: 0.875rem; color: var(--slate-400); line-height: 1.65; }
+
+/* ─────────────────────────────────────────────
+   HOW IT WORKS — STEPS
+───────────────────────────────────────────── */
+.steps-track {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 2rem; margin-top: 3.5rem;
+  position: relative;
+}
+.steps-track::before {
+  content: '';
+  position: absolute;
+  top: 22px; left: calc(12.5% + 22px); right: calc(12.5% + 22px);
+  height: 1px;
+  background: linear-gradient(90deg, var(--indigo), rgba(79,70,229,0.3), rgba(79,70,229,0));
+}
+.step-card { text-align: center; }
+.step-circle {
+  width: 44px; height: 44px;
+  background: var(--indigo);
+  border-radius: 50%; margin: 0 auto 1.25rem;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.9375rem; font-weight: 800;
+  box-shadow: var(--shadow-indigo);
+  position: relative; z-index: 1;
+}
+.step-title { font-size: 0.9375rem; font-weight: 700; margin-bottom: 0.4rem; }
+.step-desc { font-size: 0.8125rem; color: var(--slate-400); line-height: 1.6; }
+
+/* ─────────────────────────────────────────────
+   PRICING
+───────────────────────────────────────────── */
+.pricing-grid {
+  display: grid; grid-template-columns: 1fr 1.08fr 1fr;
+  gap: 1.25rem; margin-top: 3.5rem;
+  align-items: start;
+}
+.price-card {
+  background: var(--navy-800);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--radius-lg);
+  padding: 2rem 1.75rem;
+  transition: var(--transition);
+  position: relative;
+}
+.price-card:hover { transform: translateY(-4px); border-color: rgba(255,255,255,0.15); box-shadow: var(--shadow); }
+.price-card.featured {
+  border-color: var(--indigo);
+  box-shadow: 0 0 0 1px var(--indigo), var(--shadow-indigo);
+  background: linear-gradient(145deg, rgba(79,70,229,0.12) 0%, var(--navy-800) 60%);
+}
+.popular-tag {
+  position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+  background: var(--indigo);
+  color: var(--white);
+  font-size: 0.6875rem; font-weight: 800;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 4px 14px; border-radius: 100px;
+  white-space: nowrap; box-shadow: var(--shadow-indigo);
+}
+.price-tier { font-size: 0.8125rem; font-weight: 600; color: var(--slate-400); margin-bottom: 0.5rem; }
+.price-card.featured .price-tier { color: var(--indigo-400); }
+.price-value { font-size: 2.75rem; font-weight: 900; letter-spacing: -0.03em; margin-bottom: 0.2rem; }
+.price-orig { font-size: 0.875rem; color: var(--navy-600); text-decoration: line-through; margin-bottom: 1.5rem; }
+.price-card.featured .price-orig { color: rgba(255,255,255,0.25); }
+.price-divider { height: 1px; background: var(--border); margin: 1.25rem 0; }
+.price-feature {
+  display: flex; gap: 10px; align-items: flex-start;
+  font-size: 0.875rem; color: rgba(255,255,255,0.7);
+  margin-bottom: 0.75rem; line-height: 1.45;
+}
+.price-check { color: var(--emerald); font-size: 0.875rem; flex-shrink: 0; margin-top: 2px; }
+.price-btn {
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  width: 100%; padding: 0.875rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.9375rem; font-weight: 700;
+  text-decoration: none; margin-top: 1.75rem;
+  cursor: pointer; border: none;
+  transition: var(--transition); font-family: var(--font);
+  letter-spacing: -0.01em;
+}
+.btn-filled { background: var(--indigo); color: var(--white); box-shadow: var(--shadow-indigo); }
+.btn-filled:hover { background: var(--indigo-600); transform: translateY(-1px); box-shadow: 0 12px 32px rgba(79,70,229,0.5); }
+.btn-outline { background: transparent; color: var(--white); border: 1px solid rgba(255,255,255,0.15); }
+.btn-outline:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.3); }
+.price-guarantee {
+  text-align: center; margin-top: 2rem;
+  font-size: 0.8125rem; color: var(--slate-400);
+}
+.price-guarantee strong { color: var(--white); }
+
+/* ─────────────────────────────────────────────
+   TESTIMONIALS
+───────────────────────────────────────────── */
+.testi-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem; margin-top: 3.5rem;
+}
+.testi-card {
+  background: var(--navy-800);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.75rem;
+  transition: var(--transition);
+}
+.testi-card:hover { border-color: rgba(255,255,255,0.15); transform: translateY(-2px); }
+.testi-stars { font-size: 0.8rem; color: var(--amber); letter-spacing: 2px; margin-bottom: 1rem; }
+.testi-quote { font-size: 0.9375rem; line-height: 1.7; color: rgba(255,255,255,0.8); margin-bottom: 1.5rem; }
+.testi-author { display: flex; align-items: center; gap: 0.875rem; }
+.testi-avatar {
+  width: 40px; height: 40px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem; font-weight: 800; color: var(--white);
+  flex-shrink: 0;
+}
+.testi-name { font-size: 0.875rem; font-weight: 700; }
+.testi-role { font-size: 0.75rem; color: var(--slate-400); }
+
+/* ─────────────────────────────────────────────
+   FAQ
+───────────────────────────────────────────── */
+.faq-wrap { max-width: 720px; margin: 3.5rem auto 0; }
+.faq-item {
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+}
+.faq-q {
+  width: 100%; background: none; border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: 1.375rem 0;
+  font-family: var(--font); font-size: 0.9375rem; font-weight: 600;
+  color: var(--white); text-align: left; transition: color 0.2s;
+}
+.faq-q:hover { color: var(--indigo-400); }
+.faq-icon {
+  width: 24px; height: 24px; border-radius: 50%;
+  background: rgba(79,70,229,0.15);
+  border: 1px solid rgba(79,70,229,0.3);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; font-size: 0.875rem;
+  color: var(--indigo-400); transition: transform 0.3s, background 0.2s;
+}
+.faq-item.open .faq-icon { transform: rotate(45deg); background: rgba(79,70,229,0.25); }
+.faq-a {
+  font-size: 0.9rem; color: var(--slate-400); line-height: 1.75;
+  max-height: 0; overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1), padding 0.3s;
+  padding-bottom: 0;
+}
+.faq-item.open .faq-a { max-height: 300px; padding-bottom: 1.375rem; }
+
+/* ─────────────────────────────────────────────
+   CTA STRIP
+───────────────────────────────────────────── */
+.cta-strip {
+  padding: 5rem max(2rem, calc(50% - 640px));
+  text-align: center;
+  background: radial-gradient(ellipse 80% 80% at 50% 50%, rgba(79,70,229,0.2) 0%, transparent 70%);
+  border-top: 1px solid var(--border);
+  position: relative; z-index: 1;
+}
+.cta-strip h2 {
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 900; letter-spacing: -0.025em;
+  line-height: 1.1; margin-bottom: 1.25rem;
+}
+.cta-strip p { font-size: 1.0625rem; color: var(--slate-400); margin-bottom: 2.5rem; }
+.cta-strip .btn-primary { font-size: 1rem; padding: 1rem 2.25rem; margin: 0 auto; }
+.cta-trust {
+  display: flex; align-items: center; justify-content: center; gap: 2rem;
+  flex-wrap: wrap; margin-top: 1.75rem;
+}
+.trust-item { display: flex; align-items: center; gap: 6px; font-size: 0.8125rem; color: var(--slate-400); }
+.trust-item svg { color: var(--emerald); }
+
+/* ─────────────────────────────────────────────
+   FOOTER
+───────────────────────────────────────────── */
+footer {
+  padding: 2.5rem max(2rem, calc(50% - 640px));
+  border-top: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
+  position: relative; z-index: 1;
+}
+.footer-brand { font-size: 0.9375rem; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+.footer-note { font-size: 0.75rem; color: var(--slate-400); max-width: 420px; text-align: center; }
+.footer-links { display: flex; gap: 1.5rem; }
+.footer-links a { font-size: 0.8125rem; color: var(--slate-400); text-decoration: none; transition: color 0.2s; }
+.footer-links a:hover { color: var(--white); }
+
+/* ─────────────────────────────────────────────
+   STAT ROW
+───────────────────────────────────────────── */
+.stats-row {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  margin: 0;
+}
+.stat-cell {
+  background: rgba(255,255,255,0.02);
+  padding: 2.5rem 2rem;
+  text-align: center;
+}
+.stat-number {
+  font-size: 2.25rem; font-weight: 900; letter-spacing: -0.03em;
+  background: linear-gradient(135deg, var(--white), var(--slate-400));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.4rem;
+}
+.stat-label { font-size: 0.8125rem; color: var(--slate-400); }
+
+/* ─────────────────────────────────────────────
+   ANIMATIONS
+───────────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-8px); }
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 8px var(--emerald); }
+  50%       { opacity: 0.6; box-shadow: 0 0 16px var(--emerald); }
+}
+.reveal {
+  opacity: 0; transform: translateY(28px);
+  transition: opacity 0.6s cubic-bezier(0.4,0,0.2,1), transform 0.6s cubic-bezier(0.4,0,0.2,1);
+}
+.reveal.visible { opacity: 1; transform: none; }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+
+/* ─────────────────────────────────────────────
+   RESPONSIVE
+───────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .hero { grid-template-columns: 1fr; padding-top: 7rem; }
+  .hero-visual-wrap { order: -1; }
+  .chip { display: none; }
+  .features-grid { grid-template-columns: repeat(2, 1fr); }
+  .pricing-grid { grid-template-columns: 1fr; max-width: 480px; margin-left: auto; margin-right: auto; }
+  .calc-layout { grid-template-columns: 1fr; }
+  .testi-grid { grid-template-columns: 1fr; max-width: 560px; margin-left: auto; margin-right: auto; }
+  .steps-track { grid-template-columns: repeat(2, 1fr); }
+  .steps-track::before { display: none; }
+  .stats-row { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+  .hero { gap: 2.5rem; }
+  .hero-title { font-size: 2.25rem; }
+  .nav-links { display: none; }
+  .nav-links.open {
+    display: flex; flex-direction: column;
+    position: fixed; top: 64px; left: 0; right: 0;
+    background: var(--navy); padding: 1.5rem 2rem 2rem;
     border-bottom: 1px solid var(--border);
-    backdrop-filter: blur(8px);
+    gap: 1.25rem;
   }
-  .nav-logo {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800; font-size: 1.1rem;
-    color: var(--ink);
-    text-decoration: none;
-  }
-  .nav-logo span { color: var(--saffron); }
-  .nav-cta {
-    background: var(--saffron);
-    color: #fff;
-    font-family: 'Syne', sans-serif;
-    font-weight: 700; font-size: 0.85rem;
-    padding: 0.55rem 1.4rem;
-    border: none; border-radius: 4px;
-    cursor: pointer; text-decoration: none;
-    letter-spacing: 0.02em;
-    transition: background 0.2s, transform 0.15s;
-  }
-  .nav-cta:hover { background: #E55A00; transform: translateY(-1px); }
+  .nav-mobile-toggle { display: flex; align-items: center; }
+  .features-grid { grid-template-columns: 1fr; }
+  .pain-grid { grid-template-columns: 1fr; }
+  .steps-track { grid-template-columns: 1fr; }
+  .stats-row { grid-template-columns: 1fr 1fr; }
+  .section-inner { padding-top: 4rem; padding-bottom: 4rem; }
+  .hero-actions { flex-direction: column; align-items: flex-start; }
+  .hero-actions .btn-primary, .hero-actions .btn-ghost { width: 100%; justify-content: center; }
+  footer { flex-direction: column; text-align: center; }
+  .footer-note { margin: 0 auto; }
+}
 
-  /* ── HERO ── */
-  .hero {
-    min-height: 100vh;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    align-items: center;
-    padding: 8rem 4rem 4rem;
-    gap: 4rem;
-    position: relative;
-  }
-  .hero::after {
-    content: '';
-    position: absolute;
-    top: -20%;  right: -10%;
-    width: 600px; height: 600px;
-    background: radial-gradient(circle, rgba(255,107,0,0.08) 0%, transparent 70%);
-    border-radius: 50%;
-    pointer-events: none;
-  }
-  .hero-eyebrow {
-    display: inline-flex; align-items: center; gap: 0.5rem;
-    background: rgba(255,107,0,0.1);
-    border: 1px solid rgba(255,107,0,0.25);
-    color: var(--saffron);
-    font-size: 0.75rem; font-weight: 500;
-    padding: 0.35rem 0.9rem;
-    border-radius: 100px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    margin-bottom: 1.5rem;
-    animation: fadeUp 0.6s ease both;
-  }
-  .hero-title {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(2.6rem, 4vw, 3.8rem);
-    font-weight: 800;
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-    margin-bottom: 1.5rem;
-    animation: fadeUp 0.6s 0.1s ease both;
-  }
-  .hero-title em {
-    font-style: normal;
-    color: var(--saffron);
-    position: relative;
-  }
-  .hero-title em::after {
-    content: '';
-    position: absolute;
-    bottom: 4px; left: 0; right: 0; height: 3px;
-    background: var(--saffron);
-    opacity: 0.3;
-    border-radius: 2px;
-  }
-  .hero-sub {
-    font-size: 1.1rem;
-    line-height: 1.7;
-    color: var(--muted);
-    max-width: 480px;
-    margin-bottom: 2.5rem;
-    animation: fadeUp 0.6s 0.2s ease both;
-  }
-  .hero-actions {
-    display: flex; gap: 1rem; flex-wrap: wrap;
-    animation: fadeUp 0.6s 0.3s ease both;
-  }
-  .btn-primary {
-    display: inline-flex; align-items: center; gap: 0.5rem;
-    background: var(--saffron);
-    color: #fff;
-    font-family: 'Syne', sans-serif;
-    font-weight: 700; font-size: 1rem;
-    padding: 0.9rem 2rem;
-    border: none; border-radius: 6px;
-    cursor: pointer; text-decoration: none;
-    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
-    box-shadow: 0 4px 20px rgba(255,107,0,0.3);
-  }
-  .btn-primary:hover { background: #E55A00; transform: translateY(-2px); box-shadow: 0 8px 30px rgba(255,107,0,0.4); }
-  .btn-secondary {
-    display: inline-flex; align-items: center; gap: 0.5rem;
-    background: transparent;
-    color: var(--ink);
-    font-family: 'Syne', sans-serif;
-    font-weight: 600; font-size: 1rem;
-    padding: 0.9rem 2rem;
-    border: 1.5px solid var(--border);
-    border-radius: 6px;
-    cursor: pointer; text-decoration: none;
-    transition: border-color 0.2s, background 0.2s;
-  }
-  .btn-secondary:hover { border-color: var(--ink); background: rgba(0,0,0,0.03); }
-
-  .hero-trust {
-    display: flex; align-items: center; gap: 1rem;
-    margin-top: 2rem;
-    animation: fadeUp 0.6s 0.4s ease both;
-  }
-  .trust-avatars {
-    display: flex;
-  }
-  .trust-avatars span {
-    width: 32px; height: 32px;
-    border-radius: 50%;
-    border: 2px solid var(--paper);
-    margin-left: -8px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 0.75rem;
-    font-weight: 700; color: #fff;
-  }
-  .trust-text { font-size: 0.85rem; color: var(--muted); }
-  .trust-text strong { color: var(--ink); }
-
-  /* ── HERO MOCKUP ── */
-  .hero-visual {
-    position: relative;
-    animation: fadeUp 0.6s 0.2s ease both;
-  }
-  .mockup-card {
-    background: var(--navy);
-    border-radius: 16px;
-    padding: 1.5rem;
-    box-shadow: 0 30px 80px rgba(10,22,40,0.25), 0 0 0 1px rgba(255,255,255,0.05);
-    position: relative;
-    overflow: hidden;
-  }
-  .mockup-card::before {
-    content: '';
-    position: absolute; top: 0; left: 0; right: 0; height: 3px;
-    background: linear-gradient(90deg, var(--saffron), var(--gold), var(--green-light));
-  }
-  .mockup-topbar {
-    display: flex; align-items: center; gap: 0.5rem;
-    margin-bottom: 1.2rem;
-  }
-  .dot { width: 10px; height: 10px; border-radius: 50%; }
-  .dot-r { background: #FF5F57; }
-  .dot-y { background: #FEBC2E; }
-  .dot-g { background: #27C840; }
-  .mockup-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 0.7rem; font-weight: 700;
-    color: rgba(255,255,255,0.3);
-    letter-spacing: 0.1em; text-transform: uppercase;
-    margin-left: auto;
-  }
-  .kpi-grid {
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 0.75rem; margin-bottom: 1rem;
-  }
-  .kpi-box {
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 10px;
-    padding: 1rem;
-  }
-  .kpi-label {
-    font-size: 0.65rem; color: rgba(255,255,255,0.4);
-    text-transform: uppercase; letter-spacing: 0.08em;
-    margin-bottom: 0.35rem;
-  }
-  .kpi-value {
-    font-family: 'Syne', sans-serif;
-    font-size: 1.35rem; font-weight: 800; color: #fff;
-  }
-  .kpi-value.orange { color: var(--saffron-light); }
-  .kpi-value.green { color: var(--green-light); }
-  .kpi-value.red { color: #FF6B6B; }
-  .kpi-change { font-size: 0.7rem; color: rgba(255,255,255,0.3); margin-top: 0.2rem; }
-  .mockup-table-header {
-    display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr 0.8fr;
-    gap: 0.5rem;
-    padding: 0.4rem 0.6rem;
-    background: rgba(255,255,255,0.04);
-    border-radius: 6px 6px 0 0;
-    font-size: 0.6rem; color: rgba(255,255,255,0.3);
-    text-transform: uppercase; letter-spacing: 0.06em;
-  }
-  .mockup-row {
-    display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr 0.8fr;
-    gap: 0.5rem;
-    padding: 0.55rem 0.6rem;
-    border-bottom: 1px solid rgba(255,255,255,0.04);
-    font-size: 0.72rem; color: rgba(255,255,255,0.75);
-    align-items: center;
-  }
-  .mockup-row:last-child { border-bottom: none; }
-  .badge {
-    font-size: 0.58rem; font-weight: 700;
-    padding: 0.2rem 0.5rem; border-radius: 4px;
-    text-align: center;
-  }
-  .badge-paid { background: rgba(0,168,90,0.2); color: #00A85A; }
-  .badge-pending { background: rgba(255,107,0,0.2); color: var(--saffron-light); }
-  .floating-tag {
-    position: absolute;
-    background: var(--paper);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 0.7rem 1rem;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.12);
-    font-size: 0.8rem;
-    font-weight: 500;
-  }
-  .floating-tag.top-right {
-    top: -20px; right: -30px;
-    animation: float 3s ease-in-out infinite;
-  }
-  .floating-tag.bottom-left {
-    bottom: -18px; left: -30px;
-    animation: float 3s 1.5s ease-in-out infinite;
-  }
-  .tag-emoji { font-size: 1.1rem; margin-right: 0.3rem; }
-
-  /* ── SECTION COMMONS ── */
-  section { padding: 6rem 4rem; position: relative; }
-  .section-label {
-    font-family: 'Syne', sans-serif;
-    font-size: 0.72rem; font-weight: 700;
-    letter-spacing: 0.15em; text-transform: uppercase;
-    color: var(--saffron);
-    margin-bottom: 1rem;
-  }
-  .section-title {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(1.8rem, 3vw, 2.8rem);
-    font-weight: 800;
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-    margin-bottom: 1rem;
-  }
-  .section-sub {
-    font-size: 1.05rem;
-    color: var(--muted);
-    max-width: 560px;
-    line-height: 1.7;
-  }
-
-  /* ── PAIN POINTS ── */
-  .pain-section {
-    background: var(--navy);
-    color: #fff;
-  }
-  .pain-section .section-title { color: #fff; }
-  .pain-section .section-sub { color: rgba(255,255,255,0.5); }
-  .pain-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem; margin-top: 3rem;
-  }
-  .pain-card {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 14px;
-    padding: 1.8rem;
-    position: relative;
-    overflow: hidden;
-    transition: border-color 0.3s, transform 0.3s;
-  }
-  .pain-card:hover { border-color: rgba(255,107,0,0.4); transform: translateY(-4px); }
-  .pain-card::before {
-    content: '';
-    position: absolute; top: 0; left: 0; right: 0; height: 2px;
-    background: linear-gradient(90deg, var(--saffron), transparent);
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-  .pain-card:hover::before { opacity: 1; }
-  .pain-emoji { font-size: 2rem; margin-bottom: 1rem; display: block; }
-  .pain-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 1.05rem; font-weight: 700;
-    color: #fff; margin-bottom: 0.6rem;
-  }
-  .pain-desc { font-size: 0.9rem; color: rgba(255,255,255,0.5); line-height: 1.6; }
-
-  /* ── FEATURES ── */
-  .features-section { background: var(--cream); }
-  .features-grid {
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 1.2rem; margin-top: 3rem;
-  }
-  .feature-card {
-    background: var(--paper);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 1.8rem;
-    display: flex; gap: 1.2rem;
-    transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
-  }
-  .feature-card:hover {
-    border-color: var(--saffron);
-    transform: translateY(-3px);
-    box-shadow: 0 12px 40px rgba(255,107,0,0.1);
-  }
-  .feature-icon {
-    width: 48px; height: 48px; flex-shrink: 0;
-    background: rgba(255,107,0,0.1);
-    border-radius: 12px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.3rem;
-  }
-  .feature-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 1rem; font-weight: 700;
-    margin-bottom: 0.4rem;
-  }
-  .feature-desc { font-size: 0.88rem; color: var(--muted); line-height: 1.6; }
-
-  /* ── HOW IT WORKS ── */
-  .steps-row {
-    display: grid; grid-template-columns: repeat(4, 1fr);
-    gap: 2rem; margin-top: 3rem;
-    position: relative;
-  }
-  .steps-row::before {
-    content: '';
-    position: absolute;
-    top: 24px; left: calc(12.5% + 24px); right: calc(12.5% + 24px); height: 1px;
-    background: var(--border);
-    z-index: 0;
-  }
-  .step { text-align: center; position: relative; z-index: 1; }
-  .step-num {
-    width: 48px; height: 48px;
-    background: var(--saffron);
-    color: #fff;
-    font-family: 'Syne', sans-serif;
-    font-size: 1.1rem; font-weight: 800;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    margin: 0 auto 1rem;
-    box-shadow: 0 4px 20px rgba(255,107,0,0.3);
-  }
-  .step-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 0.95rem; font-weight: 700;
-    margin-bottom: 0.4rem;
-  }
-  .step-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
-
-  /* ── PRICING ── */
-  .pricing-section { background: var(--navy); color: #fff; }
-  .pricing-section .section-title { color: #fff; }
-  .pricing-section .section-sub { color: rgba(255,255,255,0.5); }
-  .pricing-grid {
-    display: grid; grid-template-columns: 1fr 1.15fr 1fr;
-    gap: 1.5rem; margin-top: 3rem; align-items: start;
-  }
-  .price-card {
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 16px;
-    padding: 2rem;
-    transition: transform 0.3s;
-  }
-  .price-card:hover { transform: translateY(-4px); }
-  .price-card.featured {
-    background: var(--saffron);
-    border-color: var(--saffron);
-    position: relative;
-  }
-  .price-card.featured::before {
-    content: 'BEST VALUE';
-    position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
-    background: var(--gold);
-    color: var(--navy);
-    font-family: 'Syne', sans-serif;
-    font-size: 0.65rem; font-weight: 800;
-    letter-spacing: 0.1em;
-    padding: 0.25rem 0.8rem;
-    border-radius: 100px;
-  }
-  .price-tier {
-    font-family: 'Syne', sans-serif;
-    font-size: 0.75rem; font-weight: 700;
-    letter-spacing: 0.12em; text-transform: uppercase;
-    color: rgba(255,255,255,0.5);
-    margin-bottom: 0.6rem;
-  }
-  .price-card.featured .price-tier { color: rgba(255,255,255,0.8); }
-  .price-amount {
-    font-family: 'Syne', sans-serif;
-    font-size: 2.5rem; font-weight: 800;
-    color: #fff; line-height: 1;
-    margin-bottom: 0.3rem;
-  }
-  .price-orig {
-    font-size: 0.85rem;
-    color: rgba(255,255,255,0.35);
-    text-decoration: line-through;
-    margin-bottom: 1.2rem;
-  }
-  .price-divider {
-    height: 1px;
-    background: rgba(255,255,255,0.1);
-    margin: 1.2rem 0;
-  }
-  .price-feature {
-    display: flex; align-items: flex-start; gap: 0.6rem;
-    font-size: 0.88rem;
-    color: rgba(255,255,255,0.75);
-    margin-bottom: 0.7rem;
-    line-height: 1.4;
-  }
-  .price-feature .check { color: var(--green-light); flex-shrink: 0; font-size: 0.9rem; }
-  .price-card.featured .price-feature { color: rgba(255,255,255,0.9); }
-  .price-btn {
-    display: block; width: 100%; text-align: center;
-    padding: 0.8rem;
-    border-radius: 8px;
-    font-family: 'Syne', sans-serif;
-    font-weight: 700; font-size: 0.9rem;
-    margin-top: 1.5rem;
-    cursor: pointer; text-decoration: none;
-    transition: all 0.2s;
-  }
-  .price-btn-outline {
-    border: 1.5px solid rgba(255,255,255,0.25);
-    color: #fff;
-  }
-  .price-btn-outline:hover { border-color: #fff; background: rgba(255,255,255,0.08); }
-  .price-btn-white {
-    background: #fff;
-    color: var(--saffron);
-  }
-  .price-btn-white:hover { background: var(--cream); }
-
-  /* ── TESTIMONIALS ── */
-  .testimonials-section { background: var(--cream); }
-  .testi-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem; margin-top: 3rem;
-  }
-  .testi-card {
-    background: var(--paper);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 1.8rem;
-  }
-  .testi-stars { color: var(--gold); font-size: 0.9rem; margin-bottom: 1rem; }
-  .testi-quote { font-size: 0.92rem; line-height: 1.7; color: var(--ink); margin-bottom: 1.2rem; }
-  .testi-author { display: flex; align-items: center; gap: 0.8rem; }
-  .testi-avatar {
-    width: 40px; height: 40px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.1rem; font-weight: 700; color: #fff;
-  }
-  .testi-name { font-family: 'Syne', sans-serif; font-size: 0.88rem; font-weight: 700; }
-  .testi-role { font-size: 0.78rem; color: var(--muted); }
-
-  /* ── FAQ ── */
-  .faq-section {}
-  .faq-list { margin-top: 3rem; max-width: 760px; }
-  .faq-item {
-    border-bottom: 1px solid var(--border);
-    padding: 1.4rem 0;
-    cursor: pointer;
-  }
-  .faq-item:last-child { border-bottom: none; }
-  .faq-q {
-    font-family: 'Syne', sans-serif;
-    font-size: 1rem; font-weight: 700;
-    display: flex; justify-content: space-between; align-items: center;
-    gap: 1rem;
-  }
-  .faq-toggle { color: var(--saffron); font-size: 1.3rem; flex-shrink: 0; transition: transform 0.3s; }
-  .faq-item.open .faq-toggle { transform: rotate(45deg); }
-  .faq-a {
-    font-size: 0.92rem; color: var(--muted); line-height: 1.7;
-    margin-top: 0;
-    max-height: 0; overflow: hidden;
-    transition: max-height 0.4s ease, margin-top 0.3s;
-  }
-  .faq-item.open .faq-a { max-height: 200px; margin-top: 0.8rem; }
-
-  /* ── CTA STRIP ── */
-  .cta-strip {
-    background: var(--saffron);
-    text-align: center;
-    padding: 4rem;
-  }
-  .cta-strip h2 {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(1.8rem, 3vw, 2.6rem);
-    font-weight: 800;
-    color: #fff;
-    margin-bottom: 1rem;
-    letter-spacing: -0.02em;
-  }
-  .cta-strip p { color: rgba(255,255,255,0.8); font-size: 1.05rem; margin-bottom: 2rem; }
-  .cta-strip .btn-white {
-    display: inline-flex; align-items: center; gap: 0.5rem;
-    background: #fff; color: var(--saffron);
-    font-family: 'Syne', sans-serif;
-    font-weight: 800; font-size: 1rem;
-    padding: 1rem 2.4rem;
-    border-radius: 8px; text-decoration: none;
-    transition: transform 0.2s, box-shadow 0.2s;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-  }
-  .cta-strip .btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.2); }
-
-  /* ── FOOTER ── */
-  footer {
-    background: var(--ink);
-    color: rgba(255,255,255,0.5);
-    padding: 3rem 4rem;
-    display: flex; justify-content: space-between; align-items: center;
-  }
-  .footer-logo {
-    font-family: 'Syne', sans-serif;
-    font-size: 1.1rem; font-weight: 800;
-    color: #fff;
-  }
-  .footer-logo span { color: var(--saffron); }
-  .footer-note { font-size: 0.82rem; }
-  .footer-links { display: flex; gap: 1.5rem; }
-  .footer-links a { color: rgba(255,255,255,0.4); font-size: 0.82rem; text-decoration: none; }
-  .footer-links a:hover { color: #fff; }
-
-  /* ── PLATFORM BADGES ── */
-  .platforms {
-    display: flex; align-items: center; gap: 1rem;
-    flex-wrap: wrap; margin-top: 1.5rem;
-  }
-  .platform-label { font-size: 0.78rem; color: var(--muted); }
-  .platform-badge {
-    background: rgba(0,0,0,0.06);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 0.35rem 0.8rem;
-    font-size: 0.78rem; font-weight: 600;
-    color: var(--ink);
-  }
-
-  /* ── ANIMATIONS ── */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50%       { transform: translateY(-8px); }
-  }
-
-  .reveal {
-    opacity: 0; transform: translateY(24px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
-  }
-  .reveal.visible { opacity: 1; transform: translateY(0); }
-
-  @media (max-width: 900px) {
-    nav { padding: 1rem 1.5rem; }
-    .hero { grid-template-columns: 1fr; padding: 7rem 1.5rem 3rem; gap: 2.5rem; }
-    .hero-visual { order: -1; }
-    .floating-tag { display: none; }
-    section { padding: 4rem 1.5rem; }
-    .pain-grid, .testi-grid, .pricing-grid { grid-template-columns: 1fr; }
-    .features-grid { grid-template-columns: 1fr; }
-    .steps-row { grid-template-columns: 1fr 1fr; }
-    .steps-row::before { display: none; }
-    footer { flex-direction: column; gap: 1rem; text-align: center; }
-    .cta-strip { padding: 3rem 1.5rem; }
-  }
+@media (max-width: 480px) {
+  .table-header, .table-row { grid-template-columns: 2fr 1fr 80px; }
+  .table-header span:nth-child(3),
+  .table-header span:nth-child(4),
+  .table-row span:nth-child(3),
+  .table-row span:nth-child(4) { display: none; }
+  .kpi-row { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 <body>
 
-<!-- NAV -->
-<nav>
-  <a href="#" class="nav-logo">GST<span>Hub</span> 🧾</a>
-  <a href="#pricing" class="nav-cta">Get It Now →</a>
+<!-- ─── NAV ──────────────────────────────────── -->
+<nav id="nav">
+  <a href="#" class="nav-brand">
+    <div class="nav-brand-icon">🧾</div>
+    GSTHub
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#how-it-works">How It Works</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#pricing" class="nav-cta" target="_blank">Get the Hub Now →</a></li>
+  </ul>
+  <button class="nav-mobile-toggle" id="mobileToggle" aria-label="Toggle menu">☰</button>
 </nav>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-content">
-    <div class="hero-eyebrow">🇮🇳 Built for Indian Freelancers · FY 2025–26</div>
-    <h1 class="hero-title">Stop Guessing.<br>Start Knowing Your <em>Exact Tax</em>.</h1>
-    <p class="hero-sub">The only GST + TDS tracker built specifically for Indian freelancers. Enter your invoice, and the sheet instantly tells you what to pay, what to save, and what to claim back.</p>
-    <div class="hero-actions">
-      <a href="#pricing" class="btn-primary">⬇ Download Now — ₹299</a>
-      <a href="#features" class="btn-secondary">See What's Inside</a>
-    </div>
-    <div class="platforms">
-      <span class="platform-label">Available on:</span>
-      <span class="platform-badge">Gumroad</span>
-      <span class="platform-badge">Topmate</span>
-      <span class="platform-badge">Instamojo</span>
-    </div>
-    <div class="hero-trust">
-      <div class="trust-avatars">
-        <span style="background:#FF6B00; margin-left:0">R</span>
-        <span style="background:#006B3C">P</span>
-        <span style="background:#0A1628">A</span>
-        <span style="background:#D4A017">S</span>
-      </div>
-      <p class="trust-text"><strong>1,200+ freelancers</strong> already saving on CA bills</p>
-    </div>
-  </div>
+<main>
 
-  <div class="hero-visual">
-    <div class="mockup-card">
-      <div class="mockup-topbar">
-        <div class="dot dot-r"></div>
-        <div class="dot dot-y"></div>
-        <div class="dot dot-g"></div>
-        <span class="mockup-title">GST Freelance Hub · FY 2025–26</span>
+<!-- ─── HERO ─────────────────────────────────── -->
+<section>
+  <div class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        Built for Indian Freelancers · FY 2025–26
       </div>
-      <div class="kpi-grid">
-        <div class="kpi-box">
-          <div class="kpi-label">Total Revenue</div>
-          <div class="kpi-value orange">₹4,20,000</div>
-          <div class="kpi-change">↑ 12 invoices this quarter</div>
+      <h1 class="hero-title">
+        Master Your Freelance<br>
+        <span class="hero-title-gradient">Taxes in Minutes</span>
+      </h1>
+      <p class="hero-sub">
+        The automated GST &amp; TDS system built for Indian independent professionals. Enter an invoice once — every number calculates itself.
+      </p>
+      <div class="hero-actions">
+        <a href="#pricing" class="btn-primary" target="_blank">
+          Get the Hub Now
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="#how-it-works" class="btn-ghost">See How It Works</a>
+      </div>
+      <div class="hero-social-proof">
+        <div class="avatars">
+          <div class="avatar" style="background:#4f46e5">R</div>
+          <div class="avatar" style="background:#0891b2">P</div>
+          <div class="avatar" style="background:#059669">A</div>
+          <div class="avatar" style="background:#d97706">S</div>
+          <div class="avatar" style="background:#dc2626">M</div>
         </div>
-        <div class="kpi-box">
-          <div class="kpi-label">Net Profit (Est.)</div>
-          <div class="kpi-value green">₹2,10,000</div>
-          <div class="kpi-change">After GST + expenses</div>
-        </div>
-        <div class="kpi-box">
-          <div class="kpi-label">GST to Deposit</div>
-          <div class="kpi-value orange">₹75,600</div>
-          <div class="kpi-change">Keep aside → GSTN</div>
-        </div>
-        <div class="kpi-box">
-          <div class="kpi-label">TDS Receivable</div>
-          <div class="kpi-value red">₹8,400</div>
-          <div class="kpi-change">Claim via ITR filing</div>
-        </div>
-      </div>
-      <div class="mockup-table-header">
-        <span>Client</span><span>Invoice ₹</span><span>GST</span><span>Net Recv.</span><span>Status</span>
-      </div>
-      <div class="mockup-row">
-        <span>Acme Design Co.</span><span>₹35,400</span><span>₹5,400</span><span>₹29,670</span>
-        <span class="badge badge-paid">Paid</span>
-      </div>
-      <div class="mockup-row">
-        <span>TechStartup Inc.</span><span>₹59,000</span><span>₹9,000</span><span>₹49,410</span>
-        <span class="badge badge-pending">Pending</span>
-      </div>
-      <div class="mockup-row">
-        <span>Content Agency</span><span>₹23,600</span><span>₹3,600</span><span>₹19,764</span>
-        <span class="badge badge-paid">Paid</span>
-      </div>
-    </div>
-    <div class="floating-tag top-right">
-      <span class="tag-emoji">🏦</span> Keep ₹75,600 for GST
-    </div>
-    <div class="floating-tag bottom-left">
-      <span class="tag-emoji">✅</span> Zero formula errors
-    </div>
-  </div>
-</section>
-
-<!-- PAIN POINTS -->
-<section class="pain-section reveal">
-  <div class="section-label">The Problem</div>
-  <h2 class="section-title">Every Freelancer's Tax Nightmare</h2>
-  <p class="section-sub">Sound familiar? You're not alone. 87% of Indian freelancers admit to tax confusion every quarter.</p>
-  <div class="pain-grid">
-    <div class="pain-card">
-      <span class="pain-emoji">😰</span>
-      <div class="pain-title">"How much GST do I owe?"</div>
-      <p class="pain-desc">You raised 15 invoices this quarter. Some at 18%, some at 12%. You have no idea what to deposit to GSTN next month.</p>
-    </div>
-    <div class="pain-card">
-      <span class="pain-emoji">🤯</span>
-      <div class="pain-title">"My client deducted TDS — now what?"</div>
-      <p class="pain-desc">TDS was cut at source, but you can't figure out if you're owed a refund or need to pay more. Form 16A is sitting unopened.</p>
-    </div>
-    <div class="pain-card">
-      <span class="pain-emoji">💸</span>
-      <div class="pain-title">Paying a CA ₹2,000/month just to track</div>
-      <p class="pain-desc">Small freelancers earning ₹30–50K/month shouldn't spend ₹24,000/year just to track their own invoices and basic taxes.</p>
-    </div>
-  </div>
-</section>
-
-<!-- FEATURES -->
-<section id="features" class="features-section reveal">
-  <div class="section-label">What's Inside</div>
-  <h2 class="section-title">5 Powerful Sheets.<br>One Complete System.</h2>
-  <p class="section-sub">Every sheet is purpose-built for Indian freelancers. No finance degree required.</p>
-  <div class="features-grid">
-    <div class="feature-card">
-      <div class="feature-icon">📋</div>
-      <div>
-        <div class="feature-title">Invoice Tracker (50 rows)</div>
-        <p class="feature-desc">Enter client, amount, GST rate, TDS rate. GST Amount, Total Invoice, Net Receivable — all auto-calculated. Payment status dropdown included.</p>
-      </div>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">📊</div>
-      <div>
-        <div class="feature-title">Financial Dashboard</div>
-        <p class="feature-desc">Live KPI cards showing Total Revenue, GST Collected, TDS Receivable, and Net Profit with 20% expense buffer built in.</p>
-      </div>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">📅</div>
-      <div>
-        <div class="feature-title">Quarterly Tax Estimator</div>
-        <p class="feature-desc">Breaks your income by Q1–Q4. Shows per-quarter GST liability, TDS credit, and estimated income tax. Filing-ready summary.</p>
-      </div>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">🧾</div>
-      <div>
-        <div class="feature-title">TDS Logger (Form 16A Tracker)</div>
-        <p class="feature-desc">Log every TDS certificate from every client. Track receipt status, quarter-wise totals, and total TDS credit to claim via ITR.</p>
-      </div>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">💰</div>
-      <div>
-        <div class="feature-title">Net Profit Estimator</div>
-        <p class="feature-desc">Formula: Revenue − 20% Expenses − GST Payable + TDS Credit − 30% Income Tax = Your Real Pocket Money. No surprises.</p>
-      </div>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">📖</div>
-      <div>
-        <div class="feature-title">GST Slab Reference + Guide</div>
-        <p class="feature-desc">Quick-reference table: which GST % applies to designers, writers, developers, consultants. Step-by-step How To Use sheet included.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- HOW IT WORKS -->
-<section class="reveal">
-  <div class="section-label">How It Works</div>
-  <h2 class="section-title">Up and running in 4 steps</h2>
-  <div class="steps-row">
-    <div class="step">
-      <div class="step-num">1</div>
-      <div class="step-title">Download the Sheet</div>
-      <p class="step-desc">Works in Google Sheets or Microsoft Excel. No plugins or setup required.</p>
-    </div>
-    <div class="step">
-      <div class="step-num">2</div>
-      <div class="step-title">Enter Your Invoices</div>
-      <p class="step-desc">Fill in Date, Client, Amount, and select GST & TDS rates from dropdowns.</p>
-    </div>
-    <div class="step">
-      <div class="step-num">3</div>
-      <div class="step-title">Watch It Calculate</div>
-      <p class="step-desc">GST, TDS, Net Receivable, and Net Profit — all calculated instantly.</p>
-    </div>
-    <div class="step">
-      <div class="step-num">4</div>
-      <div class="step-title">File with Confidence</div>
-      <p class="step-desc">Use the Quarterly Summary for GSTN filing and your TDS log for ITR.</p>
-    </div>
-  </div>
-</section>
-
-<!-- PRICING -->
-<section id="pricing" class="pricing-section reveal">
-  <div class="section-label">Simple Pricing</div>
-  <h2 class="section-title">One-time purchase.<br>Use it forever.</h2>
-  <p class="section-sub">No monthly fees. No subscriptions. Pay once, own it for all FYs.</p>
-  <div class="pricing-grid">
-    <div class="price-card">
-      <div class="price-tier">Basic</div>
-      <div class="price-amount">₹149</div>
-      <div class="price-orig">₹399</div>
-      <div class="price-divider"></div>
-      <div class="price-feature"><span class="check">✓</span> Invoice Tracker Sheet</div>
-      <div class="price-feature"><span class="check">✓</span> GST Auto-Calculator</div>
-      <div class="price-feature"><span class="check">✓</span> TDS Deduction Logger</div>
-      <div class="price-feature"><span class="check">✓</span> Works in Google Sheets</div>
-      <a href="#" class="price-btn price-btn-outline">Get Basic</a>
-    </div>
-    <div class="price-card featured">
-      <div class="price-tier">Complete Hub</div>
-      <div class="price-amount">₹299</div>
-      <div class="price-orig">₹799</div>
-      <div class="price-divider"></div>
-      <div class="price-feature"><span class="check">✓</span> All 5 Sheets included</div>
-      <div class="price-feature"><span class="check">✓</span> Quarterly Tax Dashboard</div>
-      <div class="price-feature"><span class="check">✓</span> Net Profit Estimator</div>
-      <div class="price-feature"><span class="check">✓</span> Form 16A TDS Logger</div>
-      <div class="price-feature"><span class="check">✓</span> GST Slab Reference Guide</div>
-      <div class="price-feature"><span class="check">✓</span> How-To-Use Sheet</div>
-      <a href="#" class="price-btn price-btn-white">⬇ Get Complete Hub</a>
-    </div>
-    <div class="price-card">
-      <div class="price-tier">Bundle + PDF Guide</div>
-      <div class="price-amount">₹449</div>
-      <div class="price-orig">₹1,199</div>
-      <div class="price-divider"></div>
-      <div class="price-feature"><span class="check">✓</span> Everything in Complete Hub</div>
-      <div class="price-feature"><span class="check">✓</span> PDF: GST for Freelancers</div>
-      <div class="price-feature"><span class="check">✓</span> GST Registration Guide</div>
-      <div class="price-feature"><span class="check">✓</span> ITR Filing Checklist</div>
-      <a href="#" class="price-btn price-btn-outline">Get Bundle</a>
-    </div>
-  </div>
-</section>
-
-<!-- TESTIMONIALS -->
-<section class="testimonials-section reveal">
-  <div class="section-label">What Freelancers Say</div>
-  <h2 class="section-title">Real reviews from real<br>Indian freelancers</h2>
-  <div class="testi-grid">
-    <div class="testi-card">
-      <div class="testi-stars">★★★★★</div>
-      <p class="testi-quote">"I was paying ₹1,500/month to a CA just to maintain my invoices. This sheet does the same thing in 2 minutes. Saved ₹18,000 this year alone."</p>
-      <div class="testi-author">
-        <div class="testi-avatar" style="background:#FF6B00">R</div>
-        <div>
-          <div class="testi-name">Rohit Sharma</div>
-          <div class="testi-role">Freelance UI Designer · Pune</div>
+        <div class="social-proof-text">
+          <div class="stars">★★★★★</div>
+          <div><strong>1,200+ freelancers</strong> saving on CA bills this FY</div>
         </div>
       </div>
     </div>
-    <div class="testi-card">
-      <div class="testi-stars">★★★★★</div>
-      <p class="testi-quote">"The TDS Logger alone is worth the price. I never knew how much I was losing in unclaimed TDS. Got ₹12,000 refund in my last ITR!"</p>
-      <div class="testi-author">
-        <div class="testi-avatar" style="background:#006B3C">P</div>
-        <div>
-          <div class="testi-name">Priya Nair</div>
-          <div class="testi-role">Content Writer · Bengaluru</div>
+
+    <div class="hero-visual">
+      <div class="hero-visual-wrap">
+        <div class="app-window">
+          <div class="window-bar">
+            <div class="wdot wdot-r"></div>
+            <div class="wdot wdot-y"></div>
+            <div class="wdot wdot-g"></div>
+            <div class="window-title">GST Freelance Hub · FY 2025–26</div>
+          </div>
+          <div class="window-body">
+            <div class="kpi-row">
+              <div class="kpi-tile">
+                <div class="kpi-tile-label">Total Revenue</div>
+                <div class="kpi-tile-value kv-indigo">₹4,20,000</div>
+                <div class="kpi-tile-sub">↑ 12 invoices raised</div>
+              </div>
+              <div class="kpi-tile">
+                <div class="kpi-tile-label">Net Profit Est.</div>
+                <div class="kpi-tile-value kv-emerald">₹2,10,000</div>
+                <div class="kpi-tile-sub">After GST + expenses</div>
+              </div>
+              <div class="kpi-tile">
+                <div class="kpi-tile-label">GST to Deposit</div>
+                <div class="kpi-tile-value kv-amber">₹75,600</div>
+                <div class="kpi-tile-sub">Keep aside for GSTN</div>
+              </div>
+              <div class="kpi-tile">
+                <div class="kpi-tile-label">TDS Receivable</div>
+                <div class="kpi-tile-value kv-rose">₹8,400</div>
+                <div class="kpi-tile-sub">Claim via ITR filing</div>
+              </div>
+            </div>
+            <div class="table-header">
+              <span>Client</span><span>Invoice ₹</span><span>GST</span><span>Net Recv.</span><span>Status</span>
+            </div>
+            <div class="table-row">
+              <span>Acme Design Co.</span><span>₹35,400</span><span>₹5,400</span><span>₹29,670</span>
+              <span class="status-pill s-paid">Paid</span>
+            </div>
+            <div class="table-row">
+              <span>TechStartup Inc.</span><span>₹59,000</span><span>₹9,000</span><span>₹49,410</span>
+              <span class="status-pill s-pend">Pending</span>
+            </div>
+            <div class="table-row">
+              <span>Content Agency</span><span>₹23,600</span><span>₹3,600</span><span>₹19,764</span>
+              <span class="status-pill s-paid">Paid</span>
+            </div>
+            <div class="table-row">
+              <span>Branding Studio</span><span>₹41,300</span><span>₹6,300</span><span>₹34,692</span>
+              <span class="status-pill s-over">Overdue</span>
+            </div>
+            <div class="calc-banner">
+              <span class="calc-banner-text">🏦 Keep aside for GST</span>
+              <span class="calc-banner-value">₹75,600</span>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-    <div class="testi-card">
-      <div class="testi-stars">★★★★☆</div>
-      <p class="testi-quote">"As a developer who hates finance, this tool made quarterly GST filing less scary. The 'Keep Aside' reminder is brilliant — I actually save now!"</p>
-      <div class="testi-author">
-        <div class="testi-avatar" style="background:#0A1628">A</div>
-        <div>
-          <div class="testi-name">Arjun Mehta</div>
-          <div class="testi-role">Freelance Developer · Mumbai</div>
+        <div class="chip chip-1">
+          <span class="chip-icon">✅</span>
+          Zero formula errors · 434 formulas
+        </div>
+        <div class="chip chip-2">
+          <span class="chip-icon">⚡</span>
+          Auto-sync across all 5 sheets
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- FAQ -->
-<section class="faq-section reveal">
-  <div class="section-label">FAQ</div>
-  <h2 class="section-title">Common Questions</h2>
-  <div class="faq-list">
-    <div class="faq-item" onclick="this.classList.toggle('open')">
-      <div class="faq-q">Do I need to register for GST to use this?<span class="faq-toggle">+</span></div>
-      <div class="faq-a">No. The sheet works for both registered and unregistered freelancers. If your turnover is below ₹20 Lakhs, GST registration is optional — but this tool helps you track when you're approaching that threshold.</div>
-    </div>
-    <div class="faq-item" onclick="this.classList.toggle('open')">
-      <div class="faq-q">Does this work in Google Sheets?<span class="faq-toggle">+</span></div>
-      <div class="faq-a">Yes! The file is delivered as .xlsx and works perfectly in both Google Sheets and Microsoft Excel. Simply upload to Google Drive and open with Google Sheets — all formulas and dropdowns work as-is.</div>
-    </div>
-    <div class="faq-item" onclick="this.classList.toggle('open')">
-      <div class="faq-q">What's the difference between GST and TDS?<span class="faq-toggle">+</span></div>
-      <div class="faq-a">GST is collected BY you from your client and deposited to the government. TDS is deducted FROM your payment by the client on behalf of the government. This sheet tracks both — GST you owe, and TDS you can claim back via ITR.</div>
-    </div>
-    <div class="faq-item" onclick="this.classList.toggle('open')">
-      <div class="faq-q">Is this a replacement for a CA?<span class="faq-toggle">+</span></div>
-      <div class="faq-a">For day-to-day tracking and estimation — yes, absolutely. For official filing (GSTR-1, GSTR-3B, ITR), we always recommend consulting a CA. Think of this as your preparation tool that makes your CA's job (and bill) much smaller.</div>
-    </div>
-    <div class="faq-item" onclick="this.classList.toggle('open')">
-      <div class="faq-q">Will this work for future financial years?<span class="faq-toggle">+</span></div>
-      <div class="faq-a">Yes. The sheet is reusable — just duplicate the Invoice Tracker tab for each new financial year. The formulas and structure remain the same. It's a one-time purchase, forever yours.</div>
-    </div>
+<!-- ─── SOCIAL PROOF TICKER ───────────────────── -->
+<div class="ticker-section reveal">
+  <div class="ticker-label">Works with your existing tools</div>
+  <div class="ticker-track">
+    <div class="ticker-item">📊 Google Sheets</div>
+    <div class="ticker-item">📗 Microsoft Excel</div>
+    <div class="ticker-item">🏦 GSTN Portal</div>
+    <div class="ticker-item">📋 Form 16A / TDS</div>
+    <div class="ticker-item">📄 ITR Filing</div>
+    <div class="ticker-item">💼 GSTR-1 &amp; GSTR-3B</div>
   </div>
-</section>
-
-<!-- CTA STRIP -->
-<div class="cta-strip reveal">
-  <h2>Stop paying for confusion.<br>Start knowing your numbers.</h2>
-  <p>Join 1,200+ Indian freelancers who track their taxes like pros.</p>
-  <a href="#pricing" class="btn-white">⬇ Download GST Freelance Hub — ₹299 →</a>
 </div>
 
-<!-- FOOTER -->
+<!-- ─── STATS ROW ──────────────────────────────── -->
+<div class="stats-row reveal">
+  <div class="stat-cell">
+    <div class="stat-number">₹20L+</div>
+    <div class="stat-label">Taxes tracked by users</div>
+  </div>
+  <div class="stat-cell">
+    <div class="stat-number">1,200+</div>
+    <div class="stat-label">Indian freelancers onboarded</div>
+  </div>
+  <div class="stat-cell">
+    <div class="stat-number">434</div>
+    <div class="stat-label">Auto-calculated formulas</div>
+  </div>
+  <div class="stat-cell">
+    <div class="stat-number">5</div>
+    <div class="stat-label">Interconnected smart sheets</div>
+  </div>
+</div>
+
+<!-- ─── LIVE CALCULATOR ───────────────────────── -->
+<section class="calc-section">
+  <div class="section-inner">
+    <div class="calc-layout">
+      <div class="calc-info reveal">
+        <div class="section-label">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M7 4v3l2 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          Try It Live
+        </div>
+        <h2 class="section-title">See Your Numbers<br>Before You Even Buy</h2>
+        <p class="section-sub">This is exactly what the Hub calculates automatically for every invoice you enter. No spreadsheet expertise needed.</p>
+        <div class="calc-steps">
+          <div class="calc-step">
+            <div class="step-num-box">1</div>
+            <div>
+              <div class="step-text-title">Enter your invoice amount</div>
+              <div class="step-text-sub">Your fee before GST — the base value you negotiated with the client.</div>
+            </div>
+          </div>
+          <div class="calc-step">
+            <div class="step-num-box">2</div>
+            <div>
+              <div class="step-text-title">Select your GST &amp; TDS rates</div>
+              <div class="step-text-sub">Most freelancers (designers, devs, writers) charge 18% GST. TDS is usually 2% for technical services.</div>
+            </div>
+          </div>
+          <div class="calc-step">
+            <div class="step-num-box">3</div>
+            <div>
+              <div class="step-text-title">Everything calculates instantly</div>
+              <div class="step-text-sub">GST owed, TDS deducted, net amount you'll receive, and exactly how much to keep aside.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="calc-widget reveal reveal-delay-2">
+        <div class="calc-widget-title">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M5 8h6M5 5h6M5 11h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          Invoice Calculator
+        </div>
+
+        <div class="calc-field">
+          <label class="calc-label" for="invoiceAmt">Invoice Amount (Pre-Tax ₹)</label>
+          <input class="calc-input" id="invoiceAmt" type="number" placeholder="e.g. 50000" value="50000" min="0">
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+          <div class="calc-field">
+            <label class="calc-label" for="gstRate">GST Rate</label>
+            <select class="calc-input calc-select" id="gstRate">
+              <option value="0">0% (Exempt)</option>
+              <option value="5">5%</option>
+              <option value="12">12%</option>
+              <option value="18" selected>18% (Most Common)</option>
+            </select>
+          </div>
+          <div class="calc-field">
+            <label class="calc-label" for="tdsRate">TDS Rate</label>
+            <select class="calc-input calc-select" id="tdsRate">
+              <option value="0">0% (None)</option>
+              <option value="1">1%</option>
+              <option value="2" selected>2% (Technical)</option>
+              <option value="10">10% (Professional)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="calc-results">
+          <div class="calc-row">
+            <span class="calc-row-label">Pre-Tax Invoice Amount</span>
+            <span class="calc-row-value" id="r-pretax">₹50,000</span>
+          </div>
+          <div class="calc-row">
+            <span class="calc-row-label">GST Amount (18%)</span>
+            <span class="calc-row-value" id="r-gst" style="color:var(--amber)">₹9,000</span>
+          </div>
+          <div class="calc-row">
+            <span class="calc-row-label">Total Invoice Value</span>
+            <span class="calc-row-value" id="r-total">₹59,000</span>
+          </div>
+          <div class="calc-row">
+            <span class="calc-row-label">TDS Deducted (2% on pre-tax)</span>
+            <span class="calc-row-value" id="r-tds" style="color:var(--rose)">−₹1,000</span>
+          </div>
+          <div class="calc-total-row">
+            <span class="calc-total-label">💰 Net Amount You Receive</span>
+            <span class="calc-total-value" id="r-net">₹58,000</span>
+          </div>
+          <div class="keep-aside-box">
+            <span class="keep-aside-label">🏦 Keep aside for GSTN deposit</span>
+            <span class="keep-aside-value" id="r-keepaside">₹9,000</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PAIN POINTS ───────────────────────────── -->
+<section>
+  <div class="section-inner">
+    <div class="reveal" style="text-align:center; margin-bottom: 0;">
+      <div class="section-label" style="justify-content:center">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2v6M7 10.5v1" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/><circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.5"/></svg>
+        The Problem
+      </div>
+      <h2 class="section-title">Every Freelancer's Quarterly Nightmare</h2>
+      <p class="section-sub" style="margin: 0 auto;">87% of Indian freelancers get this wrong every single quarter. Does any of this sound familiar?</p>
+    </div>
+    <div class="pain-grid reveal">
+      <div class="pain-card">
+        <span class="pain-emoji">😰</span>
+        <div class="pain-title">"How much GST do I even owe?"</div>
+        <p class="pain-text">You raised 12 invoices this quarter at different rates. You have zero idea what to deposit to GSTN next month — and the deadline is in 8 days.</p>
+      </div>
+      <div class="pain-card">
+        <span class="pain-emoji">🤯</span>
+        <div class="pain-title">TDS was cut. What do you do now?</div>
+        <p class="pain-text">Your client deducted TDS. Form 16A is sitting unopened in your email. You don't know if you're owed a refund or need to pay more at ITR time.</p>
+      </div>
+      <div class="pain-card">
+        <span class="pain-emoji">💸</span>
+        <div class="pain-title">₹18,000/year for basic invoice tracking</div>
+        <p class="pain-text">Freelancers earning ₹3–5L/year shouldn't spend ₹1,500/month on a CA just to log invoices. That's money that belongs in your pocket.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FEATURES ──────────────────────────────── -->
+<section id="features" style="background: rgba(255,255,255,0.02);">
+  <div class="section-inner">
+    <div class="reveal" style="text-align:center">
+      <div class="section-label" style="justify-content:center">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2v10" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/></svg>
+        What's Inside
+      </div>
+      <h2 class="section-title">5 Interconnected Sheets.<br>One Complete System.</h2>
+      <p class="section-sub" style="margin: 0 auto;">Every sheet auto-syncs with the others. Enter data once — the entire system updates.</p>
+    </div>
+    <div class="features-grid reveal">
+      <div class="feature-card">
+        <div class="feature-icon-box">📋</div>
+        <div class="feature-card-title">Invoice Tracker (50 rows)</div>
+        <p class="feature-card-text">Enter client, amount, and select rates. GST, TDS, Total Invoice, and Net Receivable all calculate the moment you type. Includes payment status dropdown.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon-box">📊</div>
+        <div class="feature-card-title">Live Financial Dashboard</div>
+        <p class="feature-card-text">Real-time KPI tiles showing Total Revenue, GST Collected, TDS Receivable, and Net Profit. Net Receivable filters out Overdue invoices for an accurate cash flow view.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon-box">📅</div>
+        <div class="feature-card-title">Quarterly Tax Estimator</div>
+        <p class="feature-card-text">Auto-sums your revenue, GST, and TDS by quarter (Q1–Q4) from your invoice dates using SUMPRODUCT formulas. No manual entry — just add invoices and check this sheet at filing time.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon-box">🧾</div>
+        <div class="feature-card-title">TDS Logger (Auto-Sync)</div>
+        <p class="feature-card-text">Automatically pulls every "Paid" invoice from the Invoice Tracker — client, amount, TDS rate, TDS deducted, and quarter. Tracks Form 16A receipt status so you never miss a refund claim.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon-box">💰</div>
+        <div class="feature-card-title">Net Profit Estimator</div>
+        <p class="feature-card-text">Formula: Revenue − 20% Expenses − GST Payable + TDS Credit − 30% Income Tax = Your real take-home. The only number that actually matters.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon-box">📖</div>
+        <div class="feature-card-title">GST Slab Reference + How-To Guide</div>
+        <p class="feature-card-text">Built-in quick-reference table with GST rates by service type (design, writing, dev, consulting). Step-by-step How-To sheet included so you never need to Google anything.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── HOW IT WORKS ──────────────────────────── -->
+<section id="how-it-works">
+  <div class="section-inner">
+    <div class="reveal" style="text-align:center">
+      <div class="section-label" style="justify-content:center">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.5"/><path d="M7 4v3l1.5 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Workflow
+      </div>
+      <h2 class="section-title">Up and Running in Under 5 Minutes</h2>
+      <p class="section-sub" style="margin: 0 auto;">No setup. No plugins. Just download, open in Google Sheets or Excel, and start entering invoices.</p>
+    </div>
+    <div class="steps-track reveal">
+      <div class="step-card">
+        <div class="step-circle">1</div>
+        <div class="step-title">Download the File</div>
+        <p class="step-desc">Works in Google Sheets or Microsoft Excel. Upload to Google Drive and open — all 434 formulas work instantly.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-circle">2</div>
+        <div class="step-title">Enter Your Invoices</div>
+        <p class="step-desc">Fill in Date, Client, Amount. Select GST rate (usually 18%) and TDS rate from dropdowns. 30 seconds per invoice.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-circle">3</div>
+        <div class="step-title">Everything Auto-Calculates</div>
+        <p class="step-desc">GST, TDS, Net Receivable, and Net Profit calculate instantly. The Dashboard and Quarterly sheets update themselves.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-circle">4</div>
+        <div class="step-title">File with Confidence</div>
+        <p class="step-desc">Use the Quarterly Summary for GSTR-1/3B filing and the TDS Logger for your ITR. Your CA will thank you.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PRICING ───────────────────────────────── -->
+<section id="pricing" style="background: rgba(255,255,255,0.02);">
+  <div class="section-inner">
+    <div class="reveal" style="text-align:center">
+      <div class="section-label" style="justify-content:center">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M3.5 4.5h5a1.5 1.5 0 010 3h-3a1.5 1.5 0 000 3h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Pricing
+      </div>
+      <h2 class="section-title">One-Time Purchase.<br>Use It Every FY Forever.</h2>
+      <p class="section-sub" style="margin: 0 auto;">No subscriptions. No monthly fees. Pay once, own it permanently. Update it yourself for any future financial year.</p>
+    </div>
+    <div class="pricing-grid reveal">
+
+      <!-- Basic -->
+      <div class="price-card">
+        <div class="price-tier">Basic</div>
+        <div class="price-value">₹149</div>
+        <div class="price-orig">Regular ₹399</div>
+        <div class="price-divider"></div>
+        <div class="price-feature"><span class="price-check">✓</span> Invoice Tracker Sheet (50 rows)</div>
+        <div class="price-feature"><span class="price-check">✓</span> GST Auto-Calculator (0%, 5%, 12%, 18%)</div>
+        <div class="price-feature"><span class="price-check">✓</span> TDS Deduction Logger</div>
+        <div class="price-feature"><span class="price-check">✓</span> Payment Status Tracking</div>
+        <div class="price-feature"><span class="price-check">✓</span> Works in Google Sheets &amp; Excel</div>
+        <a href="#" class="price-btn btn-outline" target="_blank">Get the Hub Now →</a>
+      </div>
+
+      <!-- Complete Hub (Featured) -->
+      <div class="price-card featured">
+        <div class="popular-tag">✦ Most Popular</div>
+        <div class="price-tier">Complete Hub</div>
+        <div class="price-value">₹299</div>
+        <div class="price-orig">Regular ₹799</div>
+        <div class="price-divider"></div>
+        <div class="price-feature"><span class="price-check">✓</span> Everything in Basic</div>
+        <div class="price-feature"><span class="price-check">✓</span> Full Automated Excel System (5 sheets)</div>
+        <div class="price-feature"><span class="price-check">✓</span> Live Financial Dashboard with KPI tiles</div>
+        <div class="price-feature"><span class="price-check">✓</span> Quarterly Tax Estimator (auto-sums by date)</div>
+        <div class="price-feature"><span class="price-check">✓</span> TDS Logger (auto-syncs from Invoice Tracker)</div>
+        <div class="price-feature"><span class="price-check">✓</span> Net Profit Estimator formula</div>
+        <div class="price-feature"><span class="price-check">✓</span> GST Slab Reference &amp; How-To Guide sheet</div>
+        <a href="#" class="price-btn btn-filled" target="_blank">Get the Hub Now →</a>
+      </div>
+
+      <!-- Bundle -->
+      <div class="price-card">
+        <div class="price-tier">Bundle + PDF Guide</div>
+        <div class="price-value">₹449</div>
+        <div class="price-orig">Regular ₹1,199</div>
+        <div class="price-divider"></div>
+        <div class="price-feature"><span class="price-check">✓</span> Everything in Complete Hub</div>
+        <div class="price-feature"><span class="price-check">✓</span> PDF: "GST for Indian Freelancers" (9 chapters)</div>
+        <div class="price-feature"><span class="price-check">✓</span> GST Registration step-by-step guide</div>
+        <div class="price-feature"><span class="price-check">✓</span> Annual tax filing calendar (FY 2025–26)</div>
+        <div class="price-feature"><span class="price-check">✓</span> ITR filing checklist with TDS claim guide</div>
+        <a href="#" class="price-btn btn-outline" target="_blank">Get the Hub Now →</a>
+      </div>
+
+    </div>
+    <p class="price-guarantee reveal">
+      <strong>30-day money-back guarantee.</strong> If it doesn't save you time, we'll refund you — no questions asked.
+    </p>
+  </div>
+</section>
+
+<!-- ─── TESTIMONIALS ──────────────────────────── -->
+<section>
+  <div class="section-inner">
+    <div class="reveal" style="text-align:center">
+      <div class="section-label" style="justify-content:center">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 5h4v4H2zM8 5h4v4H8z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        Reviews
+      </div>
+      <h2 class="section-title">Real Freelancers.<br>Real Results.</h2>
+    </div>
+    <div class="testi-grid reveal">
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-quote">"I was paying ₹1,500/month just to maintain my invoices. This does the same thing in 2 minutes. Saved ₹18,000 this year. Absolute no-brainer."</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:#4f46e5">R</div>
+          <div>
+            <div class="testi-name">Rohit Sharma</div>
+            <div class="testi-role">Freelance UI Designer · Pune</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-quote">"The TDS Logger alone is worth the price. Never knew how much I was losing in unclaimed TDS. Got ₹12,000 refund in my last ITR because of this tool."</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:#059669">P</div>
+          <div>
+            <div class="testi-name">Priya Nair</div>
+            <div class="testi-role">Content Writer · Bengaluru</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★☆</div>
+        <p class="testi-quote">"As a developer who hates finance, this made quarterly GST filing genuinely not scary. The 'Keep Aside' reminder is brilliant. I actually save for GST now."</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:#0891b2">A</div>
+          <div>
+            <div class="testi-name">Arjun Mehta</div>
+            <div class="testi-role">Freelance Developer · Mumbai</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FAQ ───────────────────────────────────── -->
+<section id="faq" style="background: rgba(255,255,255,0.02);">
+  <div class="section-inner">
+    <div class="reveal" style="text-align:center">
+      <div class="section-label" style="justify-content:center">FAQ</div>
+      <h2 class="section-title">Common Questions</h2>
+    </div>
+    <div class="faq-wrap reveal">
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Do I need to be GST-registered to use this?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">No. The sheet works for both registered and unregistered freelancers. If your annual turnover is below ₹20 Lakhs, GST registration is optional — but the Hub helps you track when you're approaching that threshold, so you're never caught off guard.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Does this work in Google Sheets?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">Yes, fully. The file is delivered as .xlsx and works in both Google Sheets and Microsoft Excel without any modifications. Upload to Google Drive, open with Google Sheets — all 434 formulas, dropdowns, and auto-sync features work exactly as designed.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          How is TDS different from GST?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">GST is collected BY you from your client and deposited to the government via GSTN. TDS is deducted FROM your payment by the client on the government's behalf. The Hub tracks both — GST you owe, and TDS credit you can claim back via ITR. The TDS calculation is done on the pre-tax amount (standard Indian tax practice), not the GST-inclusive total.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Is this a replacement for a CA?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">For day-to-day invoice tracking and tax estimation — yes, absolutely. For official GST filings (GSTR-1, GSTR-3B) and ITR filing, we recommend a CA. Think of this as the tool that cuts your CA's prep time from 2 hours to 10 minutes — which means a smaller CA bill for you.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Will this work for future financial years?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">Yes. The sheet is fully reusable — duplicate the Invoice Tracker tab for each new financial year and all formulas carry forward. It's a one-time purchase with no expiry date. You own it permanently.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          What if I have more than 50 invoices?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">The Invoice Tracker has 50 pre-formatted rows, which is more than enough for most freelancers (quarterly filers typically have 10–30 invoices per quarter). If you need more, you can simply copy the formula rows downward — the Dashboard and Quarterly sheets reference a named range that you can extend in under 2 minutes.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FINAL CTA ──────────────────────────────── -->
+<section class="cta-strip reveal">
+  <h2>Stop Guessing.<br><span class="hero-title-gradient">Start Knowing Your Numbers.</span></h2>
+  <p>Join 1,200+ Indian freelancers who track taxes like professionals — in under 5 minutes a month.</p>
+  <a href="#pricing" class="btn-primary" target="_blank">
+    Get the Hub Now — Starting ₹149
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </a>
+  <div class="cta-trust">
+    <div class="trust-item">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7l3.5 3.5L12 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      One-time payment
+    </div>
+    <div class="trust-item">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7l3.5 3.5L12 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Works in Google Sheets
+    </div>
+    <div class="trust-item">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7l3.5 3.5L12 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      30-day money-back guarantee
+    </div>
+    <div class="trust-item">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7l3.5 3.5L12 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Instant download
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ────────────────────────────────── -->
 <footer>
-  <div class="footer-logo">GST<span>Hub</span> 🧾</div>
-  <div class="footer-note">For reference & planning only · Consult a CA for official filings · Tax rates per FY 2025–26</div>
+  <div class="footer-brand">
+    <div class="nav-brand-icon">🧾</div>
+    GSTHub
+  </div>
+  <p class="footer-note">For estimation &amp; planning only. Consult a CA for official GST and ITR filings. Tax rates per FY 2025–26. Not affiliated with GSTN or the Government of India.</p>
   <div class="footer-links">
     <a href="#">Privacy</a>
-    <a href="#">Contact</a>
     <a href="#">Refund Policy</a>
+    <a href="#">Contact</a>
   </div>
 </footer>
 
+</main>
+
+<!-- ─── SCRIPTS ───────────────────────────────── -->
 <script>
-// Scroll reveal
+// ── Nav scroll effect ──
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 20);
+});
+
+// ── Mobile menu ──
+const toggle = document.getElementById('mobileToggle');
+const navLinks = document.getElementById('navLinks');
+toggle.addEventListener('click', () => {
+  navLinks.classList.toggle('open');
+  toggle.textContent = navLinks.classList.contains('open') ? '✕' : '☰';
+});
+document.querySelectorAll('.nav-links a').forEach(a => {
+  a.addEventListener('click', () => {
+    navLinks.classList.remove('open');
+    toggle.textContent = '☰';
+  });
+});
+
+// ── Scroll reveal ──
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(e => {
     if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
   });
-}, { threshold: 0.1 });
+}, { threshold: 0.08 });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ── FAQ toggle ──
+function toggleFaq(btn) {
+  const item = btn.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+
+// ── Live Invoice Calculator ──
+function fmt(n) {
+  return '₹' + Math.round(n).toLocaleString('en-IN');
+}
+function calcInvoice() {
+  const amt   = parseFloat(document.getElementById('invoiceAmt').value) || 0;
+  const gst   = parseFloat(document.getElementById('gstRate').value) || 0;
+  const tds   = parseFloat(document.getElementById('tdsRate').value) || 0;
+
+  const gstAmt    = amt * gst / 100;
+  const total     = amt + gstAmt;
+  const tdsAmt    = amt * tds / 100;   // TDS on pre-tax (standard Indian practice)
+  const net       = total - tdsAmt;
+  const keepAside = gstAmt;
+
+  document.getElementById('r-pretax').textContent    = fmt(amt);
+  document.getElementById('r-gst').textContent       = fmt(gstAmt) + ' (' + gst + '%)';
+  document.getElementById('r-total').textContent     = fmt(total);
+  document.getElementById('r-tds').textContent       = '−' + fmt(tdsAmt) + ' (' + tds + '% on pre-tax)';
+  document.getElementById('r-net').textContent       = fmt(net);
+  document.getElementById('r-keepaside').textContent = fmt(keepAside);
+}
+['invoiceAmt','gstRate','tdsRate'].forEach(id => {
+  document.getElementById(id).addEventListener('input', calcInvoice);
+});
+calcInvoice();
 </script>
+
 </body>
 </html>
